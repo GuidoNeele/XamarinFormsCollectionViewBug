@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="XamarinFormsCollectionViewBug.MainPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:XamarinFormsCollectionViewBug">
+  <ContentPage.BindingContext>
+    <local:MainPageViewModel />
+  </ContentPage.BindingContext>
+  <ContentPage.Resources>
+    <ResourceDictionary>
+
+      <DataTemplate x:Key="YellowTemplate">
+        <Grid BackgroundColor="Yellow" HeightRequest="50">
+          <Label Text="{Binding Title}" />
+        </Grid>
+      </DataTemplate>
+
+
+      <DataTemplate x:Key="GreenTemplate">
+        <Grid BackgroundColor="Green" HeightRequest="100">
+          <Label Text="{Binding Title}" />
+        </Grid>
+      </DataTemplate>
+
+      <DataTemplate x:Key="RedTemplate">
+        <Grid BackgroundColor="Red" HeightRequest="75">
+          <Label Text="{Binding Title}" />
+        </Grid>
+      </DataTemplate>
+
+      <local:DummyDataTemplateSelector x:Key="DummyDataTemplateSelector"
+                                       GreenTemplate="{StaticResource GreenTemplate}"
+                                       RedTemplate="{StaticResource RedTemplate}"
+                                       YellowTemplate="{StaticResource YellowTemplate}" />
+
+    </ResourceDictionary>
+  </ContentPage.Resources>
+
+  <RefreshView x:Name="RefreshView"
+               Command="{Binding RefreshCommand}"
+               IsRefreshing="{Binding IsBusy}">
+    <CollectionView ItemSizingStrategy="MeasureAllItems"
+                    ItemTemplate="{StaticResource DummyDataTemplateSelector}"
+                    ItemsSource="{Binding ListItems}">
+      <CollectionView.EmptyView>
+        <Label Text="Nothing to see here!" />
+      </CollectionView.EmptyView>
+    </CollectionView>
+  </RefreshView>
+
+</ContentPage>
